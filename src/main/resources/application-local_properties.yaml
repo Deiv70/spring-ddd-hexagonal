@@ -1,0 +1,64 @@
+spring:
+  #  docker:
+  #    compose:
+  #      enabled: false
+  #      enabled: true
+  #      file: compose.yaml
+  #      lifecycle-management: start_and_stop
+  jpa:
+    show-sql: ${SPRING_SHOW_SQL:true}
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+
+  security:
+    user:
+      name: ${SPRING_SECURITY_USER:user}
+      password: ${SPRING_SECURITY_PASSWORD:2f2489d8-0b33-4eea-a2e1-2bcc57c2826e}
+
+logging:
+  level:
+    root: info
+    sql: debug
+    org.hibernate.SQL: debug
+    org.hibernate.stat: debug
+#    web: info
+#    org.springframework.web: info
+
+## Custom ConditionalOnProperty values
+#cop:
+#  database-service: ${SPRING_DATABASE_IMPLEMENTATION:jpa}
+
+## Custom Values for Variables
+#vars:
+#  db:
+#    table-name: ${SPRING_APP_DATABASE_TABLE:prototype}
+
+springdoc:
+  #  version: '@springdoc.version@'
+  show-actuator: ${SPRING_SPRINGDOC_SHOW_ACTUATOR:true}
+  use-management-port: ${SPRING_SPRINGDOC_USE_MANAGEMENT_PORT:false}
+  #  packages-to-scan: site.deiv70.springboot.openapitools, site.deiv70.springboot.application, site.deiv70.springboot.model, vnd.spring-boot.actuator
+  swagger-ui:
+    enabled: ${SPRING_SPRINGDOC_SWAGGER_ENABLED:true}
+    path: ${SPRING_SPRINGDOC_SWAGGER_PATH:/swagger-ui}
+    csrf:
+      enabled: ${SPRING_SPRINGDOC_SWAGGER_CSRF_ENABLED:true}
+  api-docs:
+    path: ${SPRING_SPRINGDOC_API_DOCS_PATH:/api-docs}
+#  group-configs:
+#    - group: pet
+#      paths-to-match: /pet/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: ${SPRING_MANAGEMENT_PATH:/actuator}
+
+
+server:
+  port: ${SPRING_PORT:8080}
+  servlet:
+    context-path: ${SPRING_CONTEXT_PATH:/}
+    api-path: ${SPRING_API_PATH:/api}

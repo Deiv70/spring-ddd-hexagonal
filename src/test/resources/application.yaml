@@ -1,0 +1,10 @@
+spring:
+  config:
+    import: ${SPRING_TEST_CONFIGSERVER_IMPORT:optional:configserver:https://configserver.deiv70.site:8888}
+  profiles:
+    active: ${ENVIRONMENT:local}
+    group:
+      local:
+        - local_properties
+        - testcontainers
+#    include: ${SPRING_TEST_PROFILES_INCLUDE:testcontainers}

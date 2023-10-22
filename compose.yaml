@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+
+  jdbc_db:
+    image: ${SPRING_JDBC_DOCKER_IMAGE}:${SPRING_JDBC_DOCKER_IMAGE_VERSION}
+    restart: unless-stopped
+    hostname: healthcare-jdbc.docker.lan
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${SPRING_JDBC_DATABASE_SCHEMA}
+      POSTGRES_USER: ${SPRING_JDBC_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_JDBC_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${SPRING_JDBC_DATABASE_SCHEMA}
+      MYSQL_USER: ${SPRING_JDBC_DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${SPRING_JDBC_DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${SPRING_JDBC_DATABASE_ROOT_PASSWORD}
+    # Expose to the Host
+    ports:
+      # < Port exposed locally > : < Port running inside container >
+      - ${SPRING_JDBC_DATABASE_PORT}:${SPRING_JDBC_DATABASE_DEFAULT_PORT}
+    # Expose to the Docker Network
+#    expose:
+#      - '3306'
+    volumes:
+      - healthcare-jdbc_db-vol:/var/lib/mysql
+    networks:
+      traefik-net:
+        ipv4_address: 172.16.16.1
+
+#  mongo:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGODB_REPLICA_SET_MODE: primary
+#      MONGO_REPLICA_SET_NAME: rs0
+#      MONGO_INITDB_DATABASE: gdl-db
+#    command: mongod --replSet rs0 --dbpath /data/db --port 27017 --bind_ip_all
+#    volumes:
+#      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+#    expose:
+#      - 27017
+#    ports:
+#      - "27017:27017"
+#    # entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+
+volumes:
+  healthcare-jdbc_db-vol:
+
+networks:
+  traefik-net:
+    external: true ## docker network create --subnet 172.16.16.0/24 --ip-range 172.16.16.0/25 --gateway 172.16.16.254 traefik-net
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.16.16.0/24
+#          ip_range: 172.16.16.0/25
+#          gateway: 172.16.16.254

@@ -1,0 +1,507 @@
+openapi: 3.0.3
+info:
+  title: Swagger Prototype - OpenAPI 3.0
+  description: |-
+    This is a sample API definition
+  contact:
+    email: david.gomez.garcia.000@gmail.com
+    name: David Gomez Garcia (Deiv70)
+    url: https://github.com/Deiv70
+  #  termsOfService: http://swagger.io/terms/
+  #  license:
+  #    name: Apache 2.0
+  #    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1-SNAPSHOT
+
+externalDocs:
+  description: View this Proyect on GitHub
+  url: https://github.com/Deiv70/healthcare-api-springboot
+
+servers:
+  - url: http://localhost:8080/api
+
+tags:
+  - name: healthcare-worker
+    description: Everything about Healthcare Workers
+    externalDocs:
+      description: Find out more
+      url: https://swagger.io
+  - name: patient
+    description: Everything about Patients
+    externalDocs:
+      description: Find out more
+      url: https://swagger.io
+
+paths:
+  /healthcare-worker:
+    get:
+      tags:
+        - healthcare-worker
+      x-spring-paginated: true
+      operationId: getHealthcareWorkers
+      summary: Get a list of Healthcare Workers
+      parameters:
+        - name: role
+          in: query
+          required: false
+          description: Role of the Healthcare Worker
+          schema:
+            $ref: '#/components/schemas/HealthcareRole'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HealthcareWorkerDtoModel'
+                  criteria:
+                    $ref: '#/components/schemas/CriteriaDtoModel'
+        '404':
+          $ref: '#/components/responses/Error404'
+    post:
+      tags:
+        - healthcare-worker
+      operationId: createHealthcareWorker
+      summary: Add a new Healthcare Worker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  $ref: '#/components/schemas/HealthcareWorkerDtoModel'
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/Error400'
+  /healthcare-worker/{id}:
+    get:
+      tags:
+        - healthcare-worker
+      operationId: getHealthcareWorkerById
+      summary: Get Healthcare Worker information by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the Healthcare Worker to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    $ref: '#/components/schemas/HealthcareWorkerDtoModel'
+        '404':
+          description: Not found
+    put:
+      tags:
+        - healthcare-worker
+      operationId: updateHealthcareWorkerById
+      summary: Update Healthcare Worker information by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the Healthcare Worker to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  $ref: '#/components/schemas/HealthcareWorkerDtoModel'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/Error400'
+        '404':
+          $ref: '#/components/responses/Error404'
+    delete:
+      tags:
+        - healthcare-worker
+      operationId: deleteHealthcareWorkerById
+      summary: Delete Healthcare Worker record by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the Healthcare Worker to delete
+      responses:
+        '204':
+          description: No content
+        '404':
+          $ref: '#/components/responses/Error404'
+
+  /patients:
+    get:
+      tags:
+        - patient
+      x-spring-paginated: true
+      operationId: getPatients
+      summary: Get a list of patients
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PatientDtoModel'
+                  criteria:
+                    $ref: '#/components/schemas/CriteriaDtoModel'
+    post:
+      tags:
+        - patient
+      operationId: createPatient
+      summary: Create a new patient record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  $ref: '#/components/schemas/PatientDtoModel'
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/Error400'
+  /patients/{id}:
+    get:
+      tags:
+        - patient
+      operationId: getPatientById
+      summary: Get patient information by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the patient to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    $ref: '#/components/schemas/PatientDtoModel'
+        '404':
+          $ref: '#/components/responses/Error404'
+    put:
+      tags:
+        - patient
+      operationId: updatePatientById
+      summary: Update patient information by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the patient to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  $ref: '#/components/schemas/PatientDtoModel'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/Error400'
+        '404':
+          $ref: '#/components/responses/Error404'
+    delete:
+      tags:
+        - patient
+      operationId: deletePatientById
+      summary: Delete patient record by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the patient to delete
+      responses:
+        '204':
+          description: No content
+        '404':
+          $ref: '#/components/responses/Error404'
+
+components:
+
+  responses:
+
+    Error400:
+      description: Invalid Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponseDtoModel'
+    Error401:
+      description: Authentication Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponseDtoModel'
+    Error404:
+      description: Id Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponseDtoModel'
+    Error5XX:
+      description: Server Error occurred on Request Processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorResponseDtoModel'
+
+  schemas:
+
+    ApiErrorResponseDtoModel:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          minimum: 100
+          maximum: 599
+          #pattern: '^[1-5][0-9]{2}$'
+        type:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+#        spring-exception:
+#          type: spring-exception
+      xml:
+        name: 'ApiErrorResponseDtoModel'
+
+    CriteriaDtoModel:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          example: 0
+        size:
+          type: integer
+          format: int32
+          example: 10
+        sort:
+          type: array
+          items:
+            type: string
+            example: id,desc
+      xml:
+        name: 'CriteriaDtoModel'
+
+    IdDtoModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      xml:
+        name: 'IdDtoModel'
+
+    PatientDtoModel:
+      type: object
+      required:
+        - clinic_id
+        - card_issuing_country_code
+        - social_security_number
+        - tax_identification_number
+        - name
+        - surname
+        - date_of_birth
+      properties:
+        personal_identification_code:
+          description: Código de Identificación Personal (CIP)
+          type: integer
+          format: int64
+        national_healthcare_system_code:
+          description: Código del Sistema Nacional de Salud (SNS)
+          type: integer
+          format: int64
+        medical_key:
+          description: Clave Médica
+          type: integer
+          format: int64
+        #  nasi:
+        #    description: Identificador Único del Paciente (NASI)
+        #    type: integer
+        #    format: int64
+        #  nhc:
+        #    description: Número de Historial Clínico (NHC)
+        #    type: integer
+        #    format: int64
+        healthcare_card_barcode:
+          description: Código de Barras de la Tarjeta Sanitaria
+          type: integer
+          format: int64
+        card_issuing_country_code:
+          description: Código de Identificación del Emisor de la Tarjeta (CITE)
+          type: integer
+          format: int64
+        clinic_id:
+          description: Identificador del Centro Médico Asignado
+          type: integer
+          format: int64
+        social_security_number:
+          description: Número de la Seguridad Social (SS)
+          type: integer
+          format: int64
+        tax_identification_number:
+          description: Número de Identificación Fiscal (NIF) / NIE / DNI
+          type: string
+          pattern: '^[0-9]{8}[A-Z]{1}$'
+        name:
+          description: Nombre
+          type: string
+        surname:
+          description: Apellidos
+          type: string
+        gender:
+          description: Género
+          type: string
+          enum:
+            - male
+            - female
+        date_of_birth:
+          description: Fecha de Nacimiento
+          type: string
+          format: date
+        age:
+          description: Edad
+          type: integer
+          format: int32
+        password:
+          description: Contraseña
+          writeOnly: true
+          type: string
+          format: password
+
+    HealthcareWorkerDtoModel:
+      type: object
+      required:
+        - name
+        - surname
+        - date_of_birth
+        - role
+      properties:
+        id:
+          description: Identificador del Trabajador Sanitario
+          type: string
+          format: uuid
+        personal_identification_code:
+          description: Código de Identificación Personal (CIP)
+          type: integer
+          format: int64
+        tax_identification_number:
+          description: Número de Identificación Fiscal (NIF) / NIE / DNI
+          type: string
+          pattern: '^[0-9]{8}[A-Z]{1}$'
+        name:
+          description: Nombre
+          type: string
+        surname:
+          description: Apellidos
+          type: string
+        gender:
+          description: Género
+          type: string
+        date_of_birth:
+          description: Fecha de Nacimiento
+          type: string
+          format: date
+        age:
+          description: Edad
+          type: integer
+          format: int32
+        healthcare_username:
+          description: Nombre de Usuario en el Sistema Sanitario
+          type: string
+        password:
+          description: Contraseña
+          writeOnly: true
+          type: string
+          format: password
+        rol:
+          $ref: '#/components/schemas/HealthcareRole'
+        specialization:
+          type: string
+
+    HealthcareRole:
+      description: Rol
+      type: string
+      enum:
+        - doctor
+        - nurse
+
+  parameters:
+
+    id_path:
+      name: id
+      required: true
+      in: path
+      description: Object ID
+      schema:
+        type: string
+        format: uuid
+
+    name_notrequired_explode:
+      name: name
+      in: query
+      description: Name value for filtering
+      required: false
+      explode: true
+      schema:
+        type: string
+        example: 'name'
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

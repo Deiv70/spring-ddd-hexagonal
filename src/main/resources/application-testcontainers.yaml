@@ -1,0 +1,13 @@
+spring:
+  sql:
+    init:
+      platform: ${SPRING_TESTCONTAINERS_DATABASE_CLIENT:postgresql}
+  datasource:
+    url: jdbc:tc:${SPRING_TESTCONTAINERS_DATABASE_CLIENT:postgresql}:${SPRING_TESTCONTAINERS_DATABASE_CLIENT_VERSION:latest}:///${SPRING_TESTCONTAINERS_DATABASE_SCHEMA:test}
+    username: ${SPRING_TESTCONTAINERS_DATABASE_USERNAME:test}
+    password: ${SPRING_TESTCONTAINERS_DATABASE_PASSWORD:test}
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    properties:
+      hibernate:
+        dialect: ${SPRING_TESTCONTAINERS_DATABASE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
