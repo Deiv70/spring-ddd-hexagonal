@@ -42,7 +42,7 @@ public class HealthcareWorkerRestController /* implements HealthcareWorkerApi */
 	}
 
 	@RequestMapping(value = "/healthcare-worker/{id}", method = RequestMethod.GET )
-	public ResponseEntity<HealthcareWorkerDtoModel> getHealthcareWorkers(
+	public ResponseEntity<HealthcareWorkerDtoModel> getHealthcareWorker(
 		@PathVariable("id")
 		UUID id
 	) {

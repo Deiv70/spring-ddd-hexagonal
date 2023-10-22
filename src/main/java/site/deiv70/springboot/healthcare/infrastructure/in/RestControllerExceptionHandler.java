@@ -2,7 +2,6 @@ package site.deiv70.springboot.healthcare.infrastructure.in;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class RestControllerExceptionHandler {
 
 		List<String> errors = fieldErrors.stream()
 			.map(fieldError -> "`" + fieldError.getField() + "`: " + fieldError.getDefaultMessage())
-			.collect(Collectors.toList());
+			.toList();
 
 		ApiErrorResponseDtoModel apiErrorResponseDtoModel = new ApiErrorResponseDtoModel();
 		apiErrorResponseDtoModel.setMessages(errors);
