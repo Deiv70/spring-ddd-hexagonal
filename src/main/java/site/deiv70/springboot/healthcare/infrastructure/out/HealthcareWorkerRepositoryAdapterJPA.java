@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 
-import site.deiv70.springboot.healthcare.application.out.port.HealthcareWorkerRepositoryPort;
+import site.deiv70.springboot.healthcare.domain.port.HealthcareWorkerRepositoryPort;
 import site.deiv70.springboot.healthcare.domain.model.HealthcareWorker;
 import site.deiv70.springboot.healthcare.infrastructure.out.mapper.HealthcareWorkerOutMapper;
 import site.deiv70.springboot.healthcare.infrastructure.out.model.HealthcareWorkerEntity;

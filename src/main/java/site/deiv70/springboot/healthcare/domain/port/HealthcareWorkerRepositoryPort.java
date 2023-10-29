@@ -1,4 +1,4 @@
-package site.deiv70.springboot.healthcare.application.out.port;
+package site.deiv70.springboot.healthcare.domain.port;
 
 import java.util.List;
 import java.util.Optional;

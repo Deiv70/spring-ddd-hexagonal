@@ -7,8 +7,9 @@ import org.springframework.data.domain.Page;
 
 import site.deiv70.springboot.healthcare.domain.model.HealthcareWorker;
 import site.deiv70.springboot.healthcare.infrastructure.out.model.HealthcareWorkerEntity;
+import site.deiv70.springboot.healthcare.utils.ValueObjectMapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ValueObjectMapper.class})
 public interface HealthcareWorkerOutMapper {
 
 	HealthcareWorkerEntity toInfrastructure(HealthcareWorker healthcareWorker);

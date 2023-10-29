@@ -5,26 +5,44 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 import site.deiv70.springboot.healthcare.domain.model.HealthcareWorker;
+import site.deiv70.springboot.healthcare.domain.port.HealthcareWorkerRepositoryPort;
 
-@Component
-public interface HealthcareWorkerService {
+@RequiredArgsConstructor
+@Service
+public class HealthcareWorkerService {
 
-	// Inspired by Laravel Resource Controllers
+	final HealthcareWorkerRepositoryPort healthcareWorkerRepositoryPort;
 
 	// C
-	HealthcareWorker store(HealthcareWorker healthcareWorker);
+	public HealthcareWorker store(HealthcareWorker healthcareWorker) {
+
+	};
 	// R
-	HealthcareWorker show(UUID id);
+	public HealthcareWorker show(UUID id) {
 
-	Page<HealthcareWorker> index(Pageable pageable);
+	};
+
+	public Page<HealthcareWorker> index(Pageable pageable) {
+
+	};
 	// U
-	HealthcareWorker update(HealthcareWorker healthcareWorker);
+	public HealthcareWorker update(HealthcareWorker healthcareWorker) {
 
-	List<HealthcareWorker> update(List<HealthcareWorker> healthcareWorkerList);
+	};
+
+	public List<HealthcareWorker> update(List<HealthcareWorker> healthcareWorkerList) {
+
+	};
+
+//	public HealthcareWorker update(Map<String, Object> healthcareWorkerMap) {};
 	// D
-	boolean delete(UUID id);
+	public boolean delete(UUID id) {
+
+	};
 
 }
