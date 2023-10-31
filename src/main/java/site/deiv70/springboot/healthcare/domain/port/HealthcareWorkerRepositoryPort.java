@@ -1,6 +1,7 @@
 package site.deiv70.springboot.healthcare.domain.port;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,13 +16,13 @@ public interface HealthcareWorkerRepositoryPort {
 
 	Page<HealthcareWorker> findAll(Pageable pageable);
 
-	// List<HealthcareWorker> findAll();
+	Optional<HealthcareWorker> findById(UUID id);
 
 	HealthcareWorker save(HealthcareWorker healthcareWorker);
 
-	Optional<HealthcareWorker> findById(UUID id);
-
 	List<HealthcareWorker> save(List<HealthcareWorker> healthcareWorker);
+
+	HealthcareWorker save(Map<String, Object> healthcareWorkerHashMap);
 
 	void delete(UUID id);
 

@@ -1,5 +1,6 @@
 package site.deiv70.springboot.healthcare.infrastructure.in;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -33,8 +34,6 @@ public class HealthcareWorkerRestController /* implements HealthcareWorkerApi */
 		@PageableDefault(size = 10, page = 0)
 		final Pageable pageable
 	) {
-		//Optional<Pageable> pageableOptional = Optional.ofNullable(pageable);
-
 		Page<HealthcareWorker> domainResponse = healthcareWorkerService.index(pageable);
 		Page<HealthcareWorkerDtoModel> dtoResponse = healthcareWorkerInMapper.toInfrastructure(domainResponse);
 
@@ -57,9 +56,7 @@ public class HealthcareWorkerRestController /* implements HealthcareWorkerApi */
 		@RequestBody
 		HealthcareWorkerDtoModel healthcareWorkerDtoModel
 	) {
-		if (healthcareWorkerDtoModel.getId() == null) {
-			healthcareWorkerDtoModel.setId(UUID.randomUUID());
-		}
+		healthcareWorkerDtoModel.setId(UUID.randomUUID());
 		HealthcareWorker domainRequest = healthcareWorkerInMapper.toDomain(healthcareWorkerDtoModel);
 		HealthcareWorker domainResponse = healthcareWorkerService.store(domainRequest);
 		HealthcareWorkerDtoModel dtoResponse = healthcareWorkerInMapper.toInfrastructure(domainResponse);
@@ -76,40 +73,25 @@ public class HealthcareWorkerRestController /* implements HealthcareWorkerApi */
 	) {
 		healthcareWorkerDtoModel.setId(id);
 		HealthcareWorker domainRequest = healthcareWorkerInMapper.toDomain(healthcareWorkerDtoModel);
-		HealthcareWorker domainResponse = healthcareWorkerService.update(domainRequest);
+		HealthcareWorker domainResponse = healthcareWorkerService.store(domainRequest);
 		HealthcareWorkerDtoModel dtoResponse = healthcareWorkerInMapper.toInfrastructure(domainResponse);
 
 		return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
 	}
 
-	/*@RequestMapping(value = "/healthcare-worker/{id}", method = RequestMethod.PATCH )
+	@RequestMapping(value = "/healthcare-worker/{id}", method = RequestMethod.PATCH )
 	public ResponseEntity<HealthcareWorkerDtoModel> patchHealthcareWorker(
 		@PathVariable("id")
 		UUID id,
 		@RequestBody
 		Map<String, Object> patchBody
 	) {
-		// Get the fields of the model
-		List<String> fieldNameList = Utils.getClassFieldNameList(HealthcareWorkerDtoModel.class);
-		Map<String, Object> checkedPatchBody = new HashMap<>();
-
-		// Check if the fields of the patch body are valid
-		for (int i = 1; i < patchBody.size(); i++) {
-			if (fieldNameList.contains(fieldNameList.get(i))) {
-				checkedPatchBody.put(
-					fieldNameList.get(i),
-					patchBody.get(fieldNameList.get(i)));
-			} else {
-				// Si no existe, se crea un error, o se ignora, ...
-			}
-		}
 		patchBody.put("id", id);
-
 		HealthcareWorker domainResponse = healthcareWorkerService.update(patchBody);
 		HealthcareWorkerDtoModel dtoResponse = healthcareWorkerInMapper.toInfrastructure(domainResponse);
 
 		return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
-	}*/
+	}
 
 	@RequestMapping(value = "/healthcare-worker/{id}", method = RequestMethod.DELETE )
 	public ResponseEntity<Void> deleteHealthcareWorker(
